@@ -1,0 +1,1 @@
+{"HeroId":0,"HeroName":"thor","SuperPowers":"thunder god"}
