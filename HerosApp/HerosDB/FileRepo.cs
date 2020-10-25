@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using HerosLib.Models;
+using HerosDB.Models;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.IO;
 namespace HerosDB
 {
-    public class FileRepo : IRepository
+    public class FileRepo : ISuperHeroRepo
     {
         private string filename = "HerosDB/Heroes/Heroes.txt";
-        public async void AddAHeroAsync(Hero hero)
+        public async void AddAHeroAsync(SuperHero hero)
         {
             using (FileStream fs = File.Create(path: filename)){
                 await JsonSerializer.SerializeAsync(fs, hero);
@@ -17,18 +17,18 @@ namespace HerosDB
 
         }
 
-        public async Task<List<Hero>> GetAllHeroesAsync()
+        public async Task<List<SuperHero>> GetAllHeroesAsync()
         {
-            List<Hero> allHeroes = new List<Hero>();
+            List<SuperHero> allHeroes = new List<SuperHero>();
             using (FileStream fs = File.OpenRead(filename))
             {
-                allHeroes.Add(await JsonSerializer.DeserializeAsync<Hero>(fs));
+                allHeroes.Add(await JsonSerializer.DeserializeAsync<SuperHero>(fs));
             }
             return allHeroes;
 
         }
 
-        public Hero GetHeroByName(string name)
+        public SuperHero GetHeroByName(string name)
         {
             throw new System.NotImplementedException();
         }

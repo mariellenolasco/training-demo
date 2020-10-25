@@ -1,5 +1,5 @@
 ﻿using System;
-using HerosLib.Models;
+using HerosDB.Models;
 using HerosDB;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,17 +17,17 @@ namespace HeroUI
                 switch (option)
                 {
                     case "0":
-                        Hero hero = GetHeroDetails();
+                        SuperHero hero = GetHeroDetails();
                         Console.WriteLine("Hero created!");
-                        Console.WriteLine($"Name: {hero.HeroName} \nSuper power: {hero.SuperPowers}");
+                        Console.WriteLine($"Name: {hero.Alias} \nSuper power: {hero.SuperPowers}");
                         break;
                     case "1":
-                        IRepository repo = new FileRepo();
-                        Task<List<Hero>> getHeroTask = repo.GetAllHeroesAsync();
-                        List<Hero> allHeros = getHeroTask.Result;
+                        ISuperHeroRepo repo = new FileRepo();
+                        Task<List<SuperHero>> getHeroTask = repo.GetAllHeroesAsync();
+                        List<SuperHero> allHeros = getHeroTask.Result;
                         foreach (var item in allHeros)
                         {
-                            Console.WriteLine($"Name: {item.HeroName} \nSuper power: {item.SuperPowers}");
+                            Console.WriteLine($"Name: {item.Alias} \nSuper power: {item.SuperPowers}");
                         }
                         break;
                 }
@@ -36,13 +36,13 @@ namespace HeroUI
 
         }
 
-        static Hero GetHeroDetails(){
-            Hero hero = new Hero();
+        static SuperHero GetHeroDetails(){
+            SuperHero hero = new SuperHero();
             Console.Write("Enter Hero Name: ");
-            hero.HeroName = Console.ReadLine();
+            hero.Alias = Console.ReadLine();
             Console.Write("Enter Hero Superpower: ");
-            hero.SuperPowers = Console.ReadLine();
-            IRepository repo = new FileRepo();
+            //hero.SuperPowers = Console.ReadLine();
+            ISuperHeroRepo repo = new FileRepo();
             repo.AddAHeroAsync(hero);
             return hero;
         }
