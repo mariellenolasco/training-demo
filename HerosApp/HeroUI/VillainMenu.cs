@@ -9,11 +9,9 @@ namespace HeroUI
         private string userInput;
         private IVillainRepo repo;
         private IMessagingService service;
-        private IMenu main;
-        public VillainMenu(IVillainRepo repo, IMessagingService service, IMenu main){
+        public VillainMenu(IVillainRepo repo, IMessagingService service){
             this.repo = repo;
             this.service = service;
-            this.main = main;
         }
         public void start()
         {
@@ -38,6 +36,7 @@ namespace HeroUI
                         break;
                     case "3":
                         //call the main menu
+                        MainMenu main = new MainMenu();
                         main.start();
                         break;
                     default:

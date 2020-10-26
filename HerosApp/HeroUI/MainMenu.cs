@@ -4,11 +4,7 @@ namespace HeroUI
     public class MainMenu : IMenu
     {
         private string userInput;
-        private HeroMenu heroMenu;
-        public MainMenu(HeroMenu heroMenu)
-        {
-            this.heroMenu = heroMenu;
-        }
+        private HeroMenu heroMenu = new HeroMenu(new FileRepo(), new MessagingService());
         public void start()
         {
             do{
