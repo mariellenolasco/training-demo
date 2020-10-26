@@ -1,4 +1,5 @@
 using System;
+using HerosDB;
 namespace HeroUI
 {
     public class MainMenu : IMenu
