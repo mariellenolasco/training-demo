@@ -1,6 +1,7 @@
 using System;
 using HerosDB;
 using HerosDB.Models;
+using HerosLib;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace HeroUI
@@ -10,12 +11,17 @@ namespace HeroUI
         private string userInput;
         private ISuperHeroRepo repo;
         private IMessagingService service;
+        private HeroTasks tasks;
         public HeroMenu(ISuperHeroRepo repo, IMessagingService service){
             this.repo = repo;
             this.service = service;
+            tasks=new HerosLib.HeroTasks();
         }
         public void start()
         {
+            tasks.workDone += EmailService.SendEmail;
+            tasks.workDone += PushNotification.SendPushNotification;
+            tasks.workDone += TextMessageService.SendText;
             do
             {
                 Console.WriteLine("Welcome Hero! What would you like to do?");
@@ -42,6 +48,9 @@ namespace HeroUI
                         break;
                     case "2":
                         //call the event delegate for hero work, call get hero by name
+                        tasks.DoWork();
+                        tasks.ManageLife();
+                        Console.WriteLine("Press <enter>");
                         break;
                     case "3":
                         //call the main menu
