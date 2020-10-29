@@ -4,7 +4,7 @@ using HerosDB.Models;
 
 namespace HerosDB
 {
-    public class DBMapper : ISuperHeroMapper, ISuperPowerMapper
+    public class DBMapper : IMapper
     {
         public SuperHero ParseSuperHero(Superpeople hero)
         {
@@ -74,6 +74,39 @@ namespace HerosDB
                 powers.Add(ParseSuperPower(power));
             }
             return powers;
+        }
+
+        public SuperVillain ParseSuperVillain(Superpeople superVillain)
+        {
+            return new SuperVillain(){
+                RealName = superVillain.Realname,
+                Alias = superVillain.Workname,
+                HideOut = superVillain.Hideout,
+                SuperPowers = ParseSuperPower(superVillain.Powers),
+                Id = superVillain.Id
+           };
+        }
+
+        public Superpeople ParseSuperVillain(SuperVillain superVillain)
+        {
+            return new Superpeople()
+            {
+                Realname = superVillain.RealName,
+                Workname = superVillain.Alias,
+                Hideout = superVillain.HideOut,
+                Powers = ParseSuperPower(superVillain.SuperPowers),
+                Chartype = 2
+            };
+        }
+
+        public List<SuperVillain> ParseSuperVillain(List<Superpeople> superVillain)
+        {
+            List<SuperVillain> allVillains = new List<SuperVillain>();
+            foreach(var v in superVillain)
+            {
+                allVillains.Add(ParseSuperVillain(v));
+            }
+            return allVillains;
         }
     }
 }
