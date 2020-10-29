@@ -27,7 +27,7 @@ namespace HerosDB
         public Task<List<SuperHero>> GetAllHeroesAsync()
         {
 
-            return context.SuperHeroes.Where(x => x.Id != null).ToListAsync();
+            return context.SuperHeroes.Select(x => x).ToListAsync();
         }
 
         public List<SuperVillain> GetAllVillains()
