@@ -10,7 +10,8 @@ namespace HeroUI
         private string userInput;
         private ISuperHeroRepo repo;
         private IMessagingService service;
-        public HeroMenu(ISuperHeroRepo repo, IMessagingService service){
+        public HeroMenu(ISuperHeroRepo repo, IMessagingService service)
+        {
             this.repo = repo;
             this.service = service;
         }
@@ -38,15 +39,18 @@ namespace HeroUI
                         foreach (var hero in allheroes.Result)
                         {
                             Console.WriteLine($"Hero: \n\tHero Alias: {hero.Alias} \n\tHero Real Name: {hero.RealName} \n\tHero Hideout: {hero.HideOut}");
+                            foreach (var power in hero.SuperPowers)
+                            {
+                                Console.WriteLine($"\tSuper Powers:\n\t\tName: {power.Name}\n\t\tDescription: {power.Description}");
+                            }
                         }
                         break;
                     case "2":
                         //call the event delegate for hero work, call get hero by name
                         break;
                     case "3":
-                        //call the main menu
-                        MainMenu main = new MainMenu();
-                        main.start();
+                        //go back to the main menu
+                        Console.WriteLine("Going back to main");
                         break;
                     default:
                         //invalid input message;
@@ -65,16 +69,17 @@ namespace HeroUI
             hero.RealName = Console.ReadLine();
             Console.Write("Enter Hero Hideout: ");
             hero.HideOut = Console.ReadLine();
-            do{
+            do
+            {
                 SuperPower superPower = new SuperPower();
                 Console.WriteLine("Enter Hero Superpowers (type end to stop): ");
                 Console.Write("Enter Super Power Name:");
                 superPower.Name = Console.ReadLine();
-                if(superPower.Name.Equals("end")) break;
+                if (superPower.Name.Equals("end")) break;
                 Console.Write("Enter Super Power Description:");
                 superPower.Description = Console.ReadLine();
                 superPowers.Add(superPower);
-            }while(true);
+            } while (true);
             hero.SuperPowers = superPowers;
             //needs code to get all the villains and add them as a villain to the hero
             return hero;

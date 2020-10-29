@@ -1,6 +1,7 @@
 using System;
 using HerosDB;
 using Microsoft.EntityFrameworkCore;
+using HerosDB.Entities;
 namespace HeroUI
 {
     public class MainMenu : IMenu
@@ -11,7 +12,7 @@ namespace HeroUI
 
         public MainMenu()
         {
-            this.heroMenu = new HeroMenu(new DBRepo(context), new MessagingService());
+            this.heroMenu = new HeroMenu(new DBRepo(context, new DBMapper()), new MessagingService());
         }
         
         public void start()

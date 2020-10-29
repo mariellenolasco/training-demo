@@ -1,46 +1,39 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HerosDB.Models;
+using HerosDB.Entities;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace HerosDB
 {
-    public class DBRepo : ISuperHeroRepo, IVillainRepo
+    public class DBRepo : ISuperHeroRepo
     {
         private readonly HeroContext context;
-        public DBRepo(HeroContext context){
+        private readonly ISuperHeroMapper mapper;
+        public DBRepo(HeroContext context, ISuperHeroMapper mapper)
+        {
             this.context = context;
+            this.mapper = mapper;
         }
         public void AddAHeroAsync(SuperHero hero)
         {
-            context.SuperHeroes.AddAsync(hero);
-            context.SaveChangesAsync();
-        }
-
-        public void AddAVillain(SuperVillain superVillain)
-        {
-            context.SuperVillains.AddAsync(superVillain);
+            context.Superpeople.AddAsync(mapper.ParseSuperHero(hero));
             context.SaveChangesAsync();
         }
 
         public Task<List<SuperHero>> GetAllHeroesAsync()
         {
-
-            return context.SuperHeroes.Select(x => x).ToListAsync();
-        }
-
-        public List<SuperVillain> GetAllVillains()
-        {
-            throw new System.NotImplementedException();
+            int heroType = context.Charactertype.Single(x => x.Chartype == "Superhero").Id;
+            return Task.Run<List<SuperHero>>(
+                () => mapper.ParseSuperHero(
+                    context.Superpeople
+                    .Where(x => x.Chartype == heroType)
+                    .Include("Powers")
+                    .ToList()));
         }
 
         public SuperHero GetHeroByName(string name)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public SuperVillain GetVillainByName(string name)
         {
             throw new System.NotImplementedException();
         }

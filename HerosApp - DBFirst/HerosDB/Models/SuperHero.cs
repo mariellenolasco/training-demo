@@ -6,6 +6,6 @@ namespace HerosDB.Models
     /// </summary>
     public class SuperHero:SuperPerson
     {
-        public List<Enemies> Nemesis { get; set; }
+        public List<SuperVillain> Nemesis { get; set; }
     }
 }
